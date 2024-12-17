@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Deuda por Ciclo Lectivo</title>
+</head>
+<body>
+    <h1>Listado de Deuda por Ciclo Lectivo</h1>
+
+    <!-- Selector de Ciclo Lectivo -->
+    <form method="GET">
+        <label for="ciclo_lectivo">Seleccionar Ciclo Lectivo:</label>
+        <select name="ciclo_lectivo" id="ciclo_lectivo">
+            {% for ciclo in ciclos_lectivos %}
+            <option value="{{ ciclo.id }}" {% if ciclo_lectivo.id == ciclo.id %}selected{% endif %}>
+                {{ ciclo.anio }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Tabla de Deuda -->
+    {% if ciclo_lectivo %}
+    <h2>Ciclo Lectivo: {{ ciclo_lectivo.anio }}</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>CUIL</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Inscripción Pagada</th>
+                <th>Monto Inscripción</th>
+                <th>Mes</th>
+                <th>Fecha de Pago</th>
+                <th>Monto Cuota</th>
+                <th>Interés por Mora</th>
+                <th>Total a Pagar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscripcion in inscripciones %}
+            <tr>
+                <td rowspan="{{ inscripcion.cuotas|length }}">{{ inscripcion.estudiante.cuil_estudiante }}</td>
+                <td rowspan="{{ inscripcion.cuotas|length }}">{{ inscripcion.estudiante.nombres_estudiante }}</td>
+                <td rowspan="{{ inscripcion.cuotas|length }}">{{ inscripcion.estudiante.apellidos_estudiante }}</td>
+                <td rowspan="{{ inscripcion.cuotas|length }}">
+                    {{ inscripcion.pagada|yesno:"Sí,No" }}
+                </td>
+                <td rowspan="{{ inscripcion.cuotas|length }}">
+                    ${{ inscripcion.monto_inscripcion|floatformat:2 }}
+                </td>
+                {% for cuota in inscripcion.cuotas %}
+                {% if not forloop.first %}<tr>{% endif %}
+                    <td>{{ cuota.mes.nombre }}</td>
+                    <td>{{ cuota.fecha_pago|default:"-" }}</td>
+                    <td>${{ cuota.monto_base|floatformat:2 }}</td>
+                    <td>{{ cuota.interes_por_mora|floatformat:2 }}%</td>
+                    <td>${{ cuota.total_a_pagar|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            {% empty %}
+            <tr>
+                <td colspan="10">No hay inscripciones registradas para este ciclo lectivo.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>

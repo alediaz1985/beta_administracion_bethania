@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar o Modificar Montos</title>
+</head>
+<body>
+    <h1>Registrar o Modificar Montos</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="ciclo_lectivo">Ciclo Lectivo:</label>
+        <select name="ciclo_lectivo" id="ciclo_lectivo" required>
+            {% for ciclo in ciclos %}
+            <option value="{{ ciclo.id }}">{{ ciclo.anio }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="nivel_educativo">Nivel Educativo:</label>
+        <select name="nivel_educativo" id="nivel_educativo" required>
+            {% for nivel in niveles %}
+            <option value="{{ nivel.id }}">{{ nivel.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="monto_inscripcion">Monto Inscripción:</label>
+        <input type="number" step="0.01" name="monto_inscripcion" required><br><br>
+
+        <label for="monto_cuota">Monto Cuota:</label>
+        <input type="number" step="0.01" name="monto_cuota" required><br><br>
+
+        <label for="descuento_anticipado">Descuento por Pago Anticipado (%):</label>
+        <input type="number" step="0.01" name="descuento_anticipado" required><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="{% url 'cuotas_estudiantes:listar_montos' %}">Ver Montos Registrados</a>
+
+</body>
+</html>

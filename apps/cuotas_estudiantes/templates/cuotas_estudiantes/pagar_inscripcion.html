@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Pago de Inscripción</title>
+</head>
+<body>
+    <h1>Registrar Pago de Inscripción</h1>
+    
+    <!-- Mostrar mensajes de error o éxito -->
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Formulario para ingresar el CUIL -->
+    <form method="POST">
+        {% csrf_token %}
+        <label for="cuil">CUIL del Estudiante:</label>
+        <input type="text" name="cuil" id="cuil" placeholder="Ingrese el CUIL del estudiante" required>
+        <button type="submit">Registrar Pago</button>
+    </form>
+
+</body>
+</html>

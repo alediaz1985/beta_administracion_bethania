@@ -1,0 +1,7 @@
+<h1>Registrar Pago para {{ cuota }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="fecha_pago">Fecha de Pago:</label>
+    <input type="date" name="fecha_pago" required>
+    <button type="submit">Registrar Pago</button>
+</form>

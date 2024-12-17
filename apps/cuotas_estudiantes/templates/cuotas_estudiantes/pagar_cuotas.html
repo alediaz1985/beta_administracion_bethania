@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagar Cuotas</title>
+</head>
+<body>
+    <h1>Pagar Cuotas</h1>
+
+    <!-- Mostrar mensajes -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Formulario para ingresar el CUIL -->
+    <form method="POST">
+        {% csrf_token %}
+        <label for="cuil">CUIL del Estudiante:</label>
+        <input type="text" name="cuil" id="cuil" placeholder="Ingrese el CUIL" required>
+        <button type="submit">Buscar Cuotas</button>
+    </form>
+
+    {% if estudiante %}
+        <h2>Cuotas Adeudadas de {{ estudiante.nombres_estudiante }} {{ estudiante.apellidos_estudiante }}</h2>
+
+        {% if cuotas_adeudadas %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="cuil" value="{{ estudiante.cuil_estudiante }}">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th>Monto</th>
+                            <th>Interés</th>
+                            <th>Total a Pagar</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cuota in cuotas_adeudadas %}
+                        <tr>
+                            <td>{{ cuota.mes.nombre }}</td>
+                            <td>{{ cuota.monto_base }}</td>
+                            <td>{{ cuota.interes_por_mora }}%</td>
+                            <td>{{ cuota.total_a_pagar }}</td>
+                            <td>
+                                <input type="checkbox" name="cuotas" value="{{ cuota.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" name="pagar_cuotas">Pagar Cuotas Seleccionadas</button>
+            </form>
+        {% else %}
+            <p>No hay cuotas adeudadas para este estudiante.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

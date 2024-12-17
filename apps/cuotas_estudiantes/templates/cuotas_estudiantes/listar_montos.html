@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Montos por Nivel y Ciclo</title>
+</head>
+<body>
+    <h1>Montos por Nivel y Ciclo</h1>
+    <h2>Lista de Montos por Ciclo Lectivo</h2>
+
+    <!-- Formulario para seleccionar el filtro -->
+    <form method="GET" action="{% url 'cuotas_estudiantes:listar_montos' %}">
+        <label for="estado">Filtrar por estado:</label>
+        <select name="estado" id="estado" onchange="this.form.submit()">
+            <option value="todos" {% if filtro_estado == "todos" %}selected{% endif %}>Todos</option>
+            <option value="activos" {% if filtro_estado == "activos" %}selected{% endif %}>Activos</option>
+            <option value="inactivos" {% if filtro_estado == "inactivos" %}selected{% endif %}>Inactivos</option>
+        </select>
+    </form>
+
+    <!-- Tabla para mostrar los montos -->
+    <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Ciclo Lectivo</th>
+                <th>Nivel Educativo</th>
+                <th>Monto Inscripción</th>
+                <th>Monto Cuota</th>
+                <th>Descuento Anticipado</th>
+                <th>Fecha Creación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for monto in montos %}
+            <tr style="background-color: {% if not monto.activo %}#f8d7da{% else %}#d4edda{% endif %};">
+                <td>{{ monto.ciclo_lectivo.anio }}</td>
+                <td>{{ monto.nivel_educativo.nombre }}</td>
+                <td>${{ monto.monto_inscripcion }}</td>
+                <td>${{ monto.monto_cuota }}</td>
+                <td>{{ monto.descuento_anticipado }}%</td>
+                <td>{{ monto.fecha_creacion }}</td>
+                <td>
+                    {% if monto.activo %}
+                        Activo
+                    {% else %}
+                        Inactivo
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'cuotas_estudiantes:cambiar_estado_monto' monto.id %}">
+                        {% if monto.activo %}
+                            Desactivar
+                        {% else %}
+                            Activar
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" style="text-align: center;">No hay montos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

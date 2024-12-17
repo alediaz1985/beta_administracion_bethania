@@ -1,0 +1,244 @@
+/* consulta.css */
+
+/* Estilos generales para el botón */
+button {
+    background-color: #007bff; /* Color de fondo azul */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Relleno */
+    text-align: center; /* Alinear texto al centro */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Mostrar en línea */
+    font-size: 16px; /* Tamaño de la fuente */
+    margin: 4px 2px; /* Margen */
+    cursor: pointer; /* Cursor de puntero */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+button:hover {
+    background-color: #0056b3; /* Color de fondo más oscuro al pasar el ratón */
+}
+
+/* Contenedor principal de la consulta */
+.consulta-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Título de la consulta */
+.consulta-container h2 {
+    text-align: center;
+    color: #1b3a5e;
+    margin-bottom: 20px;
+}
+
+/* Formulario de búsqueda */
+.consulta-form .form-group {
+    margin-bottom: 15px;
+}
+
+.consulta-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.consulta-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.consulta-buscar-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.consulta-buscar-button:hover {
+    background-color: #218838;
+}
+
+/* Resultados de la búsqueda */
+.consulta-resultados {
+    margin-top: 20px;
+}
+
+.consulta-resultados h3 {
+    font-size: 20px;
+    color: #1b3a5e;
+    margin-bottom: 10px;
+}
+
+.consulta-lista-resultados {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.consulta-lista-resultados li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.consulta-lista-resultados a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.consulta-lista-resultados a:hover {
+    color: #0056b3;
+}
+
+/* Mensajes */
+.messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.messages .message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid transparent;
+}
+
+.messages .message::before {
+    content: "⚠"; /* Icono de advertencia */
+    margin-right: 10px;
+}
+
+.messages .success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.messages .error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.messages .info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.messages .warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+/* Contenedor para tablas en los resultados */
+.table-outer-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: #fff;
+    position: relative;
+}
+
+/* Tablas en resultados */
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    font-size: 12px;
+    table-layout: auto;
+}
+
+.result-table th,
+.result-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+.result-table th {
+    background-color: #1b3a5e;
+    color: #fff;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 50px;
+}
+
+.result-table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.result-table tr:hover {
+    background-color: #d3d3d3;
+}
+
+.result-table a {
+    color: #1b3a5e;
+    text-decoration: none;
+}
+
+.result-table a:hover {
+    color: #d32f2f;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .consulta-form label,
+    .consulta-form input {
+        font-size: 14px;
+    }
+
+    .consulta-buscar-button {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .consulta-container {
+        padding: 10px;
+    }
+
+    .consulta-form label,
+    .consulta-form input {
+        font-size: 12px;
+    }
+
+    .consulta-buscar-button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .result-table th,
+    .result-table td {
+        font-size: 10px;
+        padding: 4px;
+    }
+}

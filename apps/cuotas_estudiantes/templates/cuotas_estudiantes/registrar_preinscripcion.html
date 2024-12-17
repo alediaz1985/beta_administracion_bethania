@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Preinscripción</title>
+</head>
+<body>
+    <h1>Registrar Preinscripción</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Selección de ciclo lectivo -->
+    <form method="get" action="">
+        <label for="ciclo_lectivo">Ciclo Lectivo:</label>
+        <select name="ciclo_lectivo" id="ciclo_lectivo" onchange="this.form.submit()">
+            <option value="">Seleccione un ciclo lectivo</option>
+            {% for ciclo in ciclos_lectivos %}
+                <option value="{{ ciclo.id }}" {% if ciclo_lectivo_seleccionado and ciclo.id == ciclo_lectivo_seleccionado.id %}selected{% endif %}>
+                    {{ ciclo.anio }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <label for="estudiante">Estudiante:</label>
+        <select id="estudiante" name="estudiante" required>
+            <option value="">Seleccione un estudiante</option>
+            {% for estudiante in estudiantes %}
+                <option value="{{ estudiante.id }}">
+                    {{ estudiante.cuil_estudiante }} - {{ estudiante.apellidos_estudiante }} {{ estudiante.nombres_estudiante }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="nivel_educativo">Nivel Educativo:</label>
+        <select id="nivel_educativo" name="nivel_educativo" required>
+            <option value="">Seleccione un nivel</option>
+            {% for nivel in niveles %}
+                <option value="{{ nivel.id }}">{{ nivel.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Registrar</button>
+    </form>
+</body>
+</html>

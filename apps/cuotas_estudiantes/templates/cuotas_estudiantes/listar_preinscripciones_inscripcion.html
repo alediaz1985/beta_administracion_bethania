@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscribir Alumnos</title>
+</head>
+<body>
+    <h1>Inscribir Alumnos Preinscriptos</h1>
+
+    <!-- Seleccionar ciclo lectivo -->
+    <form method="get">
+        <label for="ciclo_lectivo">Seleccionar Ciclo Lectivo:</label>
+        <select name="ciclo_lectivo" id="ciclo_lectivo" required>
+            <option value="">--Seleccione un ciclo--</option>
+            {% for ciclo in ciclos %}
+                <option value="{{ ciclo.id }}" {% if ciclo == ciclo_lectivo_seleccionado %}selected{% endif %}>
+                    {{ ciclo.anio }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Mostrar preinscripciones -->
+    {% if preinscripciones %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>CUIL</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Nivel Educativo</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pre in preinscripciones %}
+            <tr>
+                <td>{{ pre.estudiante.cuil_estudiante }}</td>
+                <td>{{ pre.estudiante.nombres_estudiante }}</td>
+                <td>{{ pre.estudiante.apellidos_estudiante }}</td>
+                <td>{{ pre.nivel_educativo.nombre }}</td>
+                <td>
+                    <form method="post" action="{% url 'cuotas_estudiantes:inscribir_estudiante' pre.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Inscribir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay alumnos preinscriptos para este ciclo lectivo.</p>
+    {% endif %}
+</body>
+</html>

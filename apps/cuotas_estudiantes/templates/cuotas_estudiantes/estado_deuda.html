@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Deuda por Ciclo</title>
+</head>
+<body>
+    <h1>Estado de Deuda del Alumno</h1>
+    <h2>{{ estudiante.apellidos_estudiante }}, {{ estudiante.nombres_estudiante }}</h2>
+    <h3>CUIL: {{ estudiante.cuil_estudiante }}</h3>
+
+    <!-- Selección del ciclo lectivo -->
+    <form method="GET" action="">
+        <label for="ciclo_lectivo">Seleccionar Ciclo Lectivo:</label>
+        <select name="ciclo_lectivo" id="ciclo_lectivo" required>
+            <option value="">-- Seleccione un ciclo --</option>
+            {% for ciclo in ciclos %}
+                <option value="{{ ciclo.id }}" {% if ciclo.id == ciclo_lectivo.id %}selected{% endif %}>
+                    {{ ciclo.anio }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Estado de la inscripción -->
+    {% if ciclo_lectivo %}
+        <h3>Inscripción</h3>
+        {% if inscripcion %}
+            <p>
+                <strong>Ciclo Lectivo:</strong> {{ inscripcion.ciclo_lectivo.anio }}<br>
+                <strong>Monto:</strong> ${{ inscripcion.monto_inscripcion }}<br>
+                <strong>Pagada:</strong> {{ inscripcion.pagada|yesno:"Sí,No" }}<br>
+                <strong>Fecha de Inscripción:</strong> {{ inscripcion.fecha_inscripcion }}
+            </p>
+        {% else %}
+            <p>No hay inscripción registrada para este ciclo lectivo.</p>
+        {% endif %}
+
+        <!-- Estado de las cuotas -->
+        <h3>Cuotas</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Monto Base</th>
+                    <th>Interés por Mora</th>
+                    <th>Total a Pagar</th>
+                    <th>Fecha de Pago</th>
+                    <th>Pagada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cuota in cuotas %}
+                <tr>
+                    <td>{{ cuota.mes.nombre }}</td>
+                    <td>${{ cuota.monto_base }}</td>
+                    <td>{{ cuota.interes_por_mora }}%</td>
+                    <td>${{ cuota.total_a_pagar }}</td>
+                    <td>{{ cuota.fecha_pago|default:"-" }}</td>
+                    <td>{{ cuota.pagada|yesno:"Sí,No" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No hay cuotas registradas para este ciclo lectivo.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>

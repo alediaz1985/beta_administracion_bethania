@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Consultar Alumno{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="../../static/administracion_alumnos/css/syles_consultar_alumno.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="consulta-alumno-container">
+    <h1>Consultar Alumno</h1>
+    <form method="post" class="form-inline styled-form">
+        {% csrf_token %}
+        <label for="cuil">CUIL del Alumno:</label>
+        <input type="text" id="cuil" name="cuil" required>
+        <button class="learn-more">
+            <span class="circle" aria-hidden="true">
+            <span class="icon arrow"></span>
+            </span>
+            <span class="button-text">Buscar</span>
+        </button>
+    </form>
+
+    {% if estudiante %}
+        <div class="resultado-alumno">
+            <h2>Alumno encontrado</h2>
+            <div class="alumno-datos">
+                <h2>Datos del Alumno</h2>
+                    <p><strong>CUIL:</strong> {{ estudiante.cuil_estudiante }}</p>
+                    <p><strong>Nombre:</strong> {{ estudiante.apellidos_estudiante }}, {{ estudiante.nombres_estudiante }}</p>
+                    <p><strong>Tel-Cel:</strong> {{ estudiante.tel_cel_estudiante }}</p>
+                    <p><strong>Última Actualización:</strong> {{ estudiante.marca_temporal }}</p>
+                </div>
+            <div class="button-group">
+                <form method="get" action="{% url 'ver_datos_estudiante' pk=estudiante.pk %}">
+                    <button class="learn-more">
+                        <span class="circle" aria-hidden="true">
+                        <span class="icon arrow"></span>
+                        </span>
+                        <span class="button-text">Ver</span>
+                    </button>
+                </form>
+                <!-- <form method="post" action="{% url 'estudiante_delete' pk=estudiante.pk %}" id="delete-form">
+                    {% csrf_token %}
+                    <button type="button" class="button-submit gradient-button" id="delete-button">Eliminar</button>
+                </form> -->
+                <form method="get" action="{% url 'estudiante_edit' pk=estudiante.pk %}">
+                    <button class="learn-more">
+                        <span class="circle" aria-hidden="true">
+                        <span class="icon arrow"></span>
+                        </span>
+                        <span class="button-text">Editar</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% elif error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('delete-button').addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres eliminar este alumno?')) {
+                    document.getElementById('delete-form').submit();
+                }
+            });
+        });
+        
+    </script>
+{% endblock %}

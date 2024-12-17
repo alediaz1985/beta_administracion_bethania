@@ -1,0 +1,17 @@
+<h1>Lista de Ciclos Lectivos</h1>
+<ul>
+    {% for ciclo in ciclos %}
+    <li>
+        <strong>{{ ciclo.anio }}</strong> ({{ ciclo.fecha_inicio }} - {{ ciclo.fecha_fin }}) 
+        {% if ciclo.habilitado %}
+            <span style="color: green;">Habilitado</span>
+        {% else %}
+            <span style="color: red;">Deshabilitado</span>
+            <form method="post" action="{% url 'cuotas_estudiantes:habilitar_ciclo' ciclo.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Habilitar</button>
+            </form>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Cuotas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: auto;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .pagada {
+            color: green;
+            font-weight: bold;
+        }
+        .no-pagada {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Cuotas</h1>
+    <ul>
+        {% for cuota in cuotas %}
+        <li>
+            <strong>Estudiante:</strong> {{ cuota.estudiante }} <br>
+            <strong>Mes:</strong> {{ cuota.mes.nombre }} <br>
+            <strong>Ciclo Lectivo:</strong> {{ cuota.mes.ciclo_lectivo.anio }} <br>
+            <strong>Total a Pagar:</strong> {{ cuota.total_a_pagar }}<br>
+            <strong>Estado:</strong> 
+            {% if cuota.pagada %}
+                <span class="pagada">Pagada</span>
+            {% else %}
+                <span class="no-pagada">No Pagada</span>
+            {% endif %}
+            <br>
+            <a href="{% url 'cuotas_estudiantes:registrar_pago_cuota' cuota.id %}">Registrar Pago</a>
+        </li>
+        {% empty %}
+        <li>No hay cuotas registradas.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

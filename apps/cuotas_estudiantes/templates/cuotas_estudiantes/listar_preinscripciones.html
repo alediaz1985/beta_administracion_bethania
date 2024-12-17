@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Estudiantes Preinscriptos</title>
+</head>
+<body>
+    <h1>Lista de Estudiantes Preinscriptos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>CUIL</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Nivel Educativo</th>
+                <th>Ciclo Lectivo</th>
+                <th>Fecha de Preinscripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for preinscripcion in preinscripciones %}
+            <tr>
+                <td>{{ preinscripcion.estudiante.cuil_estudiante }}</td>
+                <td>{{ preinscripcion.estudiante.nombres_estudiante }}</td>
+                <td>{{ preinscripcion.estudiante.apellidos_estudiante }}</td>
+                <td>{{ preinscripcion.nivel_educativo.nombre }}</td>
+                <td>{{ preinscripcion.ciclo_lectivo.anio }}</td> <!-- Nuevo campo -->
+                <td>{{ preinscripcion.fecha_preinscripcion }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay estudiantes preinscriptos.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

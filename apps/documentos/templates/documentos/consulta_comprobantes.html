@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Consulta de Comprobantes{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'documentos/css/consulta.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="consulta-container">
+    <h2>Consulta de Comprobantes</h2>
+    <form method="post" class="consulta-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_consulta">DNI, CBU o palabra clave:</label>
+            {{ form.consulta }}
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_inicio">Desde (Fecha inicio):</label>
+            {{ form.fecha_inicio }}
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_fin">Hasta (Fecha fin):</label>
+            {{ form.fecha_fin }}
+        </div>
+        <button type="submit" class="consulta-buscar-button">Buscar</button>
+    </form>
+
+    {% if search_done %}
+        {% if resultados %}
+            <div class="consulta-resultados">
+                <h3>Resultados de la búsqueda</h3>
+                <p>Cantidad de documentos encontrados: {{ cantidad_archivos }}</p>
+                <ul class="consulta-lista-resultados">
+                    {% for resultado in resultados %}
+                    <li>
+                        <strong>Nombre:</strong>
+                        <a href="{{ resultado.url }}" target="_blank">{{ resultado.nombre }}</a><br>
+                        <strong>Fecha de modificación:</strong> {{ resultado.fecha }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p class="messages info">No se encontraron documentos.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

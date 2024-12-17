@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Inscripciones</title>
+</head>
+<body>
+    <h1>Lista de Alumnos Inscritos</h1>
+
+    <!-- Formulario para seleccionar el ciclo lectivo -->
+    <form method="GET" action="">
+        <label for="ciclo_lectivo">Seleccionar Ciclo Lectivo:</label>
+        <select name="ciclo_lectivo" id="ciclo_lectivo" onchange="this.form.submit()">
+            <option value="">Todos los ciclos</option>
+            {% for ciclo in ciclos %}
+                <option value="{{ ciclo.id }}" {% if ciclo.id == ciclo_lectivo_id|add:"0" %}selected{% endif %}>
+                    {{ ciclo.anio }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <!-- Tabla de inscripciones -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>CUIL</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Ciclo Lectivo</th>
+                <th>Fecha de Inscripción</th>
+                <th>Monto de Inscripción</th>
+                <th>Pagada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscripcion in inscripciones %}
+            <tr>
+                <td>{{ inscripcion.estudiante.cuil_estudiante }}</td>
+                <td>{{ inscripcion.estudiante.nombres_estudiante }}</td>
+                <td>{{ inscripcion.estudiante.apellidos_estudiante }}</td>
+                <td>{{ inscripcion.ciclo_lectivo.anio }}</td>
+                <td>{{ inscripcion.fecha_inscripcion }}</td>
+                <td>{{ inscripcion.monto_inscripcion }}</td>
+                <td>{{ inscripcion.pagada|yesno:"Sí,No" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No hay inscripciones registradas para el ciclo seleccionado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

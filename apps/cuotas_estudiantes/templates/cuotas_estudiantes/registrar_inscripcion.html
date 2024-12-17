@@ -1,0 +1,13 @@
+<h1>Registrar Inscripción para {{ estudiante }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="ciclo_lectivo">Ciclo Lectivo:</label>
+    <select name="ciclo_lectivo">
+        {% for ciclo in ciclos %}
+        <option value="{{ ciclo.id }}">{{ ciclo }}</option>
+        {% endfor %}
+    </select>
+    <label for="monto_inscripcion">Monto de Inscripción:</label>
+    <input type="number" name="monto_inscripcion" step="0.01" required>
+    <button type="submit">Registrar</button>
+</form>
